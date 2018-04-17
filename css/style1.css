@@ -29,8 +29,7 @@ img{max-width:100%;}
 /*-- end reset --*/
 body {
     font-family: 'Open Sans', sans-serif;
-    background:#912391;
-    background-attachment: fixed;
+    background: url(../images/bg.jpg) no-repeat
 }
 h1 {
     font-size: 3em;
@@ -64,11 +63,6 @@ h1 {
     margin: 2.5em auto 0;
     background: url(../images/1.jpg)no-repeat center 0px;
     background-size: cover;
-	-webkit-box-shadow: -6px 6px 2px 1px #470047; 
-	-moz-box-shadow: -6px 6px 2px 1px #470047;  
-	-o-box-shadow: -6px 6px 2px 1px #470047;
-	-ms-box-shadow: -6px 6px 2px 1px #470047;
-    box-shadow: -6px 6px 2px 1px #470047;
 }
 .agile-row {
     padding: 2em;
