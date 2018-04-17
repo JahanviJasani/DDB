@@ -69,7 +69,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										<!--<input type="checkbox" id="brand2" value="">
 										<label for="brand2"><span></span>I accept the terms of Use</label> -->
 									</div> 
-									<input type="submit" value="Sign Up">
+									<input type="submit" value="Login">
 								</form>  
 							</div>
 							<!--<div class="login-agileits-bottom">  

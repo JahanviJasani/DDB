@@ -85,7 +85,12 @@ h1 {
 	background:transparent;
 }
 .login-form input[type="text"].user{ 
+    margin-top: 0.5em;
     border-bottom: 1px solid #c7c7c7;
+}
+.login-form input[type="date"] {
+    display: block;
+    min-height: 25px;
 }
 .login-form input[type="email"].email {
     margin-top: 0.5em;
