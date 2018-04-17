@@ -4,6 +4,30 @@
 	License: Creative Commons Attribution 3.0 Unported
 	License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<?php
+session_start();
+include('dbhandler.php');
+
+function redirect($url){
+    if (!headers_sent()){    
+        header('Location: '.$url);
+        exit;
+    }else{  
+        echo '<script type="text/javascript">';
+        echo 'window.location.href="'.$url.'";';
+        echo '</script>';
+        echo '<noscript>';
+        echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
+        echo '</noscript>';
+    }
+}
+
+if (!isset($_SESSION['userid'])) {
+	redirect("index.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +49,7 @@
 <body>
 	<div class="w3ls-banner">
 	<div class="heading">
-		<h1>General Application Form</h1>
+		<h1>Add a traffic infraction</h1>
 	</div>
 		<div class="container">
 			<div class="heading">
@@ -33,8 +57,14 @@
 				<p>Fill the form given below and submit.</p>
 			</div>
 			<div class="agile-form">
-				<form action="#" method="post" id="off_form">
+				<form action="addviolation.php" method="post" id="off_form">
 					<ul class="field-list">
+						<li> 
+							<label class="form-label"> License Number <span class="form-required"> * </span></label>
+							<div class="form-input">
+								<input type="text" name="lic_no" placeholder="License Number" required >
+							</div>
+						</li>
 						<li> 
 							<label class="form-label"> Registration Number <span class="form-required"> * </span></label>
 							<div class="form-input">
@@ -45,14 +75,13 @@
 							<label class="form-label"> City <span class="form-required"> * </span></label>
 							<div class="form-input">
 								<select class="form-dropdown" name="city" required>
-									<option value="">Select City</option>
 									<option value="Mumbai"> Mumbai  </option>
-									<option value="Delhi"> Delhi </option>
-									<option value="Bangalore"> Bangalore  </option>
-									<option value="Hyderabad"> Hyderabad </option>
-									<option value="Ahmedabad"> Ahmedabad </option>
-									<option value="Chennai"> Chennai </option>
-									<option value="Kolkata"> Kolkata </option>
+									<option value="Delhi" disabled> Delhi </option>
+									<option value="Bangalore" disabled> Bangalore  </option>
+									<option value="Hyderabad" disabled> Hyderabad </option>
+									<option value="Ahmedabad" disabled> Ahmedabad </option>
+									<option value="Chennai" disabled> Chennai </option>
+									<option value="Kolkata" disabled> Kolkata </option>
 									
 								</select>
 							</div>
@@ -60,13 +89,19 @@
 						<li> 
 							<label class="form-label"> RTO Code <span class="form-required"> * </span></label>
 							<div class="form-input">
-								<input type="text" name="rto" placeholder="RTO Code" required >
+								<!-- <input type="text" name="rto" placeholder="RTO Code" required > -->
+								<select class="day" required="" name="RTOCode">
+									<option value="MH01">MH01</option>
+									<option value="MH02">MH02</option>
+									<option value="MH03">MH03</option>
+								</select>
 							</div>
 						</li>
 						<li>
 							<label class="form-label"> Date of Offence <span class="form-required"> * </span></label>
 							<div class="form-input dob">
-								<span class="form-sub-label">
+								<input type="date" name="date" placeholder="Date" required >
+								<!-- <span class="form-sub-label">
 									<select name="day" class="day" required>
 										<option>Day</option>
 										<option value="1"> 1 </option>
@@ -152,39 +187,53 @@
 										<option value="1990"> 2017 </option>
 										<option value="1990"> 2018 </option>
 									 </select>
-								</span>
+								</span> -->
 							</div>
 						</li>
 						<li>
 							<label class="form-label"> Offence Type <span class="form-required"> * </span></label>
 							<div class="form-input">
 								<select class="form-dropdown" name="off_cat" required>
-									<option value="">Select the Offence Type</option>
-									<option value="United states"> United states </option>
-									<option value="Afghanisthan"> Afghanistan </option>
-									<option value="China"> China </option>
-									<option value="Indonesia"> Indonesia </option>
-									<option value="England"> England </option>
-									<option value="Others"> Others </option>
+									<?php
+
+									$sql = "SELECT * FROM offenceType";
+									$result = mysqli_query($conn, $sql);
+									while($row = mysqli_fetch_assoc($result)) {
+										echo "<option value='".$row['offType']."'>".$row['description']."</option>";
+									}
+
+									?>
 								</select>
 							</div>
 						</li>
 					</ul>
 					<div class="submit_btn">
-						<input type="submit" value="Submit" onclick="submit_off()">
+						<input type="submit" value="Submit">
 					</div>
-				</form>	
+				</form>
+				<a href="logout.php" style="color: white; display: inline-block; margin: 0 auto;">Logout</a>
 			</div>
 		</div>
-		<div class="copyright">
-			<p>© 2018 General Application Form. All rights reserved | Design by <a href="www.w3layouts.com">W3layouts</a></p> 
-		</div>
+		
 	</div>
 </body>
 </html>
+<?php
+if (isset($_GET['success'])){
+	echo '<script>window.alert("Submitted Successfully");</script>';
+} else if (isset($_GET['fail'])) {
+	echo '<script>window.alert("Failed. Please try again.");</script>';
+	}
+?>
+
+
 <script type="text/javascript">
 	function submit_off() {
 		window.alert("Submitted Successfully");
 		document.getElementById("off_form").reset();
 	}
+	function submit_fail() {	
+	window.alert("Failed. Please try again.");
+	document.getElementById("off_form").reset();
+}
 </script>

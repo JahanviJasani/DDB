@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" >
 
+<?php
+include('dbhandler.php');
+function redirect($url){
+    if (!headers_sent()){    
+        header('Location: '.$url);
+        exit;
+    }else{  
+        echo '<script type="text/javascript">';
+        echo 'window.location.href="'.$url.'";';
+        echo '</script>';
+        echo '<noscript>';
+        echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
+        echo '</noscript>';
+    }
+}
+
+if (!isset($_POST['user_search'])) {
+	redirect('index.php');
+}
+
+$licNo = $_POST['l_num'];
+$date = $_POST['dob'];
+
+$lookup = "SELECT * FROM licenseHolder WHERE licenseHolder.licenseNo='$licNo' AND licenseHolder.DOB='$date'";
+$resLookup = mysqli_query($conn, $lookup);
+$ctr = mysqli_num_rows($resLookup);
+
+if ($resLookup) {
+	if ($ctr==1) {
+		$row = mysqli_fetch_assoc($resLookup);
+		// echo "Welcome".$row['fullName'];
+	} else {
+		redirect('index.php?autherror=true');
+	}
+} else {
+	redirect('index.php?autherror=true');
+	// echo $date."   ".$licNo;
+}
+
+?>
+
 <head>
   <meta charset="UTF-8">
   <title><Table> Responsive</title>
@@ -14,8 +55,25 @@
 
 <body>
 
-  <h1><span class="blue">Offence History</h1>
-<table class="container">
+	<h1><span><?php echo "Welcome, ".$row['fullName']." (".$row['licenseNo'].")"; ?></h1>
+	<h2 style="margin: 0; padding: 0;"><span class="blue" style="color: white;"><b><?php echo "License Status: ";
+		$stat = $row['currentStatus'];
+		if ($stat==0) {
+			echo "Active";
+		} else if ($stat==1) {
+			echo "Suspended";
+		} else if ($stat==2) {
+			echo "Revoked";
+		} else if ($stat==3) {
+			echo "Expired";
+		}
+
+	 ?></b></span></h2>
+
+	 <h2 style="margin: 0; padding-top: 20px; padding-bottom: 0px;"><span class="blue" style="color: white;"><b><?php echo "Penalty Points: ".$row['penaltyPoints'];?></b></span></h2>
+	 <h2 style="margin: 0; padding-top: 20px; padding-bottom: 0px;"><span class="blue" style="color: white;"><b><?php echo "Strikes: ".$row['strikes'];?></b></span></h2>
+
+<table class="container" style="padding-bottom: 10px;">
 	<thead>
 		<tr>
 			<th><h1>Offence Date</h1></th>
@@ -25,49 +83,38 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>Google</td>
-			<td>9518</td>
-			<td>6369</td>
-			<td>01:32:50</td>
+
+		<?php 
+
+		$sql = "SELECT * FROM committedOffence WHERE committedOffence.licenseNo='$licNo'";
+		$result = mysqli_query($conn, $sql);
+		$count = mysqli_num_rows($result);
+		if ($count==0) {
+			echo "<tr><td>No records found</td><td></td><td></td><td></td></tr>";
+		} else {
+			while ($row1 = mysqli_fetch_assoc($result)) {
+				$ot = $row1['offType'];
+				$offSQL = "SELECT * FROM offenceType WHERE offenceType.offType='$ot'";
+				$offResult = mysqli_query($conn, $offSQL);
+				$offRow = mysqli_fetch_assoc($offResult);
+				echo "<tr>
+			<td>".$row1['offDate']."</td>
+			<td>".$offRow['description']."</td>
+			<td>".$row1['city']."</td>
+			<td> &#8377; ".$offRow['penalty']."/-</td>
 		</tr>
-		<tr>
-			<td>Twitter</td>
-			<td>7326</td>
-			<td>10437</td>
-			<td>00:51:22</td>
-		</tr>
-		<tr>
-			<td>Amazon</td>
-			<td>4162</td>
-			<td>5327</td>
-			<td>00:24:34</td>
-		</tr>
-    <tr>
-			<td>LinkedIn</td>
-			<td>3654</td>
-			<td>2961</td>
-			<td>00:12:10</td>
-		</tr>
-    <tr>
-			<td>CodePen</td>
-			<td>2002</td>
-			<td>4135</td>
-			<td>00:46:19</td>
-		</tr>
-    <tr>
-			<td>GitHub</td>
-			<td>4623</td>
-			<td>3486</td>
-			<td>00:31:52</td>
-		</tr>
+				";
+			}
+		}
+
+
+		?>
+
+
+		
 	</tbody>
 </table>
-<h3> Current Licence Status : </h3>
-<h3> Number of Strikes : </h3>
-<h3> Total Penalty Points : </h3>
-  
-  
+<h2><span class="blue"><a href="index.php">Go to home</a></span></h2>
 
 </body>
 

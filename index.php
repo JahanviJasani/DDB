@@ -4,10 +4,35 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+
+
+<?php
+session_start();
+
+
+function redirect($url){
+    if (!headers_sent()){    
+        header('Location: '.$url);
+        exit;
+    }else{  
+        echo '<script type="text/javascript">';
+        echo 'window.location.href="'.$url.'";';
+        echo '</script>';
+        echo '<noscript>';
+        echo '<meta http-equiv="refresh" content="0;url='.$url.'" />';
+        echo '</noscript>';
+    }
+}
+
+if (isset($_SESSION['userid'])) {
+	redirect("page1.php");
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Purple Multiple Forms Flat Responsive Widget Template :: w3layouts</title>
+<title>Traffic Violations</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Purple Multiple Forms template Responsive, Login form web template,Flat Pricing tables,Flat Drop downs  Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
@@ -24,7 +49,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 	<!-- agileits-main -->
 	<div class="agileits-main"> 
-		<h1>Purple Multiple Forms</h1> 
+		<h1>Mumbai Traffic Police</h1> 
 		<div class="w3lmain-info">	
 			<!-- agileits-main-row-one -->
 			<div class="agileitsmain-row">
@@ -32,7 +57,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<!-- login form one -->
 					<div class="login-form">  
 						<div class="agile-row">
-							<h2>Licence Holder</h2>   
+							<h2>Licencee</h2>   
 							<div class="login-agileits-top"> 
 								<form action="page2.php" method="post" id="form1"> 
 									<div class="input-row">
@@ -43,7 +68,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										<!--<input type="checkbox" id="brand" value="">
 										<label for="brand"><span></span> Remember me</label> -->
 									</div>	
-									<input type="submit" value="Login">
+									<input type="submit" name="user_search" value="Search">
 								</form>  
 							</div>
 							<!--<div class="login-agileits-bottom"> 
@@ -58,11 +83,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<!-- login form two -->
 					<div class="login-form login-form-two">  
 						<div class="agile-row">
-							<h3>Police Official</h3>   
+							<h3>Official Login</h3>   
 							<div class="login-agileits-top"> 
-								<form action="page1.php" method="post" id="form2"	> 
+								<form action="signin.php" method="post" id="form2"	> 
 									<div class="input-row">
-										<input type="email" class="email" name="Email" placeholder="Enter Your Email" required=""/>  
+										<input type="text" class="user" name="username" placeholder="Username" required=""/>  
 										<input type="password" class="password" name="Password" placeholder="Password" required=""/>	
 									</div>	 
 									<div class="agileits-row2">
@@ -151,7 +176,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- //agileits-main -->
 	<!-- copyright -->
 	<div class="copyright">
-		<p>© 2017 Purple Multiple Forms . All rights reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts.</a></p>
+		<p>© 2018 Mumbai Traffic Police . All rights reserved | Design by <a href="" target="_blank">Arnav Jalui, Jahanvi Jasani, Yash Lahoti.</a></p>
 	</div>
 	<!-- //copyright --> 
 </body>
@@ -161,3 +186,14 @@ document.getElementById('form1').reset();
 </script>
 
 </html>
+
+
+<?php
+
+if (isset($_GET['signinerror'])) {
+	echo "<script>window.alert('Sign in error!')</script>";
+}
+
+if (isset($_GET['autherror'])) {
+	echo "<script>window.alert('Sign in error!')</script>";
+}
