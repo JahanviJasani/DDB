@@ -33,7 +33,7 @@
 				<p>Fill the form given below and submit.</p>
 			</div>
 			<div class="agile-form">
-				<form action="#" method="post">
+				<form action="#" method="post" id="off_form">
 					<ul class="field-list">
 						<li> 
 							<label class="form-label"> Registration Number <span class="form-required"> * </span></label>
@@ -46,12 +46,14 @@
 							<div class="form-input">
 								<select class="form-dropdown" name="city" required>
 									<option value="">Select City</option>
-									<option value="United states"> United states </option>
-									<option value="Afghanisthan"> Afghanistan </option>
-									<option value="China"> China </option>
-									<option value="Indonesia"> Indonesia </option>
-									<option value="England"> England </option>
-									<option value="Others"> Others </option>
+									<option value="Mumbai"> Mumbai  </option>
+									<option value="Delhi"> Delhi </option>
+									<option value="Bangalore"> Bangalore  </option>
+									<option value="Hyderabad"> Hyderabad </option>
+									<option value="Ahmedabad"> Ahmedabad </option>
+									<option value="Chennai"> Chennai </option>
+									<option value="Kolkata"> Kolkata </option>
+									
 								</select>
 							</div>
 						</li>
@@ -169,7 +171,7 @@
 						</li>
 					</ul>
 					<div class="submit_btn">
-						<input type="submit" value="Submit">
+						<input type="submit" value="Submit" onclick="submit_off()">
 					</div>
 				</form>	
 			</div>
@@ -180,3 +182,9 @@
 	</div>
 </body>
 </html>
+<script type="text/javascript">
+	function submit_off() {
+		window.alert("Submitted Successfully");
+		document.getElementById("off_form").reset();
+	}
+</script>

@@ -34,7 +34,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="agile-row">
 							<h2>Licence Holder</h2>   
 							<div class="login-agileits-top"> 
-								<form action="#" method="post" id="form1"> 
+								<form action="page2.php" method="post" id="form1"> 
 									<div class="input-row">
 										<input type="text" class="user" name="l_num" placeholder="Licence Number" required=""/> 
 										<input type="date" class="password" name="dob" placeholder="Date of Birth" required=""/>	
@@ -60,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="agile-row">
 							<h3>Police Official</h3>   
 							<div class="login-agileits-top"> 
-								<form action="#" method="post" id="form2"	> 
+								<form action="page1.php" method="post" id="form2"	> 
 									<div class="input-row">
 										<input type="email" class="email" name="Email" placeholder="Enter Your Email" required=""/>  
 										<input type="password" class="password" name="Password" placeholder="Password" required=""/>	
